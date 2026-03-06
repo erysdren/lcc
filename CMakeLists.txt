@@ -59,6 +59,69 @@ add_executable(lcc-lburg
 
 target_include_directories(lcc-lburg PRIVATE ${PROJECT_SOURCE_DIR}/lburg)
 
+function(lcc_lburg_target input output)
+	add_custom_command(
+		OUTPUT ${output}
+		COMMAND $<TARGET_FILE:lcc-lburg> ${input} ${output}
+		COMMAND_EXPAND_LISTS
+		VERBATIM
+	)
+endfunction()
+
+#
+# compiler library
+#
+
+lcc_lburg_target(${PROJECT_SOURCE_DIR}/src/alpha.md ${PROJECT_BINARY_DIR}/alpha.c)
+lcc_lburg_target(${PROJECT_SOURCE_DIR}/src/dagcheck.md ${PROJECT_BINARY_DIR}/dagcheck.c)
+lcc_lburg_target(${PROJECT_SOURCE_DIR}/src/mips.md ${PROJECT_BINARY_DIR}/mips.c)
+lcc_lburg_target(${PROJECT_SOURCE_DIR}/src/sparc.md ${PROJECT_BINARY_DIR}/sparc.c)
+lcc_lburg_target(${PROJECT_SOURCE_DIR}/src/x86.md ${PROJECT_BINARY_DIR}/x86.c)
+lcc_lburg_target(${PROJECT_SOURCE_DIR}/src/x86linux.md ${PROJECT_BINARY_DIR}/x86linux.c)
+
+add_executable(lcc-rcc
+	${PROJECT_SOURCE_DIR}/src/alloc.c
+	${PROJECT_SOURCE_DIR}/src/bind.c
+	${PROJECT_SOURCE_DIR}/src/dag.c
+	${PROJECT_SOURCE_DIR}/src/decl.c
+	${PROJECT_SOURCE_DIR}/src/enode.c
+	${PROJECT_SOURCE_DIR}/src/error.c
+	${PROJECT_SOURCE_DIR}/src/expr.c
+	${PROJECT_SOURCE_DIR}/src/event.c
+	${PROJECT_SOURCE_DIR}/src/init.c
+	${PROJECT_SOURCE_DIR}/src/inits.c
+	${PROJECT_SOURCE_DIR}/src/input.c
+	${PROJECT_SOURCE_DIR}/src/lex.c
+	${PROJECT_SOURCE_DIR}/src/list.c
+	${PROJECT_SOURCE_DIR}/src/main.c
+	${PROJECT_SOURCE_DIR}/src/output.c
+	${PROJECT_SOURCE_DIR}/src/prof.c
+	${PROJECT_SOURCE_DIR}/src/profio.c
+	${PROJECT_SOURCE_DIR}/src/simp.c
+	${PROJECT_SOURCE_DIR}/src/stmt.c
+	${PROJECT_SOURCE_DIR}/src/string.c
+	${PROJECT_SOURCE_DIR}/src/sym.c
+	${PROJECT_SOURCE_DIR}/src/trace.c
+	${PROJECT_SOURCE_DIR}/src/tree.c
+	${PROJECT_SOURCE_DIR}/src/types.c
+	${PROJECT_SOURCE_DIR}/src/null.c
+	${PROJECT_SOURCE_DIR}/src/symbolic.c
+	${PROJECT_SOURCE_DIR}/src/gen.c
+	${PROJECT_SOURCE_DIR}/src/bytecode.c
+	${PROJECT_SOURCE_DIR}/src/stab.c
+
+	${PROJECT_BINARY_DIR}/alpha.c
+	${PROJECT_BINARY_DIR}/dagcheck.c
+	${PROJECT_BINARY_DIR}/mips.c
+	${PROJECT_BINARY_DIR}/sparc.c
+	${PROJECT_BINARY_DIR}/x86.c
+	${PROJECT_BINARY_DIR}/x86linux.c
+)
+target_include_directories(lcc-rcc PRIVATE ${PROJECT_SOURCE_DIR}/src)
+if(CMAKE_C_COMPILER_ID STREQUAL "GNU")
+	target_compile_options(lcc-rcc PRIVATE -Wno-abi) # shut up gcc
+endif()
+
 #
 # compiler frontend
 #
