@@ -11,13 +11,13 @@ if(NOT LCC_HOST_FILE_DEFAULT)
 	elseif(WIN32)
 		set(LCC_HOST_FILE_DEFAULT win32.c)
 	else()
-		message(WARNING "Platform is not Linux or Windows - automatically assuming bytecode-only target")
-		set(LCC_HOST_FILE_DEFAULT bytecodelcc.c)
+		message(WARNING "Platform is not Linux or Windows - automatically assuming generic target")
+		set(LCC_HOST_FILE_DEFAULT generic.c)
 	endif()
 endif()
 
 set(LCC_HOST_FILE ${LCC_HOST_FILE_DEFAULT} CACHE STRING "Platform host source file")
-set_property(CACHE LCC_HOST_FILE PROPERTY STRINGS bytecodelcc.c gcc-solaris.c irix.c linux.c osf.c solaris.c win32.c)
+set_property(CACHE LCC_HOST_FILE PROPERTY STRINGS generic.c gcc-solaris.c irix.c linux.c osf.c solaris.c win32.c)
 
 #
 # packages
@@ -69,7 +69,7 @@ function(lcc_lburg_target input output)
 endfunction()
 
 #
-# compiler library
+# compiler backend
 #
 
 lcc_lburg_target(${PROJECT_SOURCE_DIR}/src/alpha.md ${PROJECT_BINARY_DIR}/alpha.c)
@@ -132,6 +132,15 @@ add_executable(lcc
 )
 
 #
+# bprint
+#
+
+add_executable(bprint
+	${PROJECT_SOURCE_DIR}/etc/bprint.c
+)
+target_include_directories(bprint PRIVATE ${PROJECT_SOURCE_DIR}/src)
+
+#
 # liblcc
 #
 
@@ -141,3 +150,34 @@ add_library(liblcc STATIC
 	${PROJECT_SOURCE_DIR}/lib/yynull.c
 )
 set_target_properties(liblcc PROPERTIES OUTPUT_NAME lcc)
+
+#
+# install target
+#
+
+include(GNUInstallDirs)
+
+install(
+	TARGETS
+		lcc
+		lcc-rcc
+		lcc-cpp
+		bprint
+	DESTINATION
+		bin
+)
+
+install(
+	TARGETS
+		liblcc
+	DESTINATION
+		lib
+)
+
+install(
+	FILES
+		${PROJECT_SOURCE_DIR}/doc/bprint.1
+		${PROJECT_SOURCE_DIR}/doc/lcc.1
+	DESTINATION
+		man/man1
+)
