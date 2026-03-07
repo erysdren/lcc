@@ -18,7 +18,7 @@ available to CMake
 
 options:
 - set `-DLCC_HOST_FILE=x` on the command line where `x` is one of the following options:
-	- `generic.c` - generic target, makes few assumptions about host system (default)
+	- `generic.c` - generic platform-agnostic target, makes few assumptions about host system (default)
 	- `gcc-solaris.c` - "SPARCs running Solaris 2.5.1 w/GCC tools"
 	- `irix.c` - "SGI big endian MIPSes running IRIX 6.2"
 	- `linux.c` - "x86s running Linux"
@@ -39,6 +39,18 @@ cmake --build build
 ```bash
 # run this command after building
 cmake --build build --target install
+```
+
+by default on a modern Linux system, files will be installed to:
+
+```
+/usr/local/bin/lcc
+/usr/local/bin/lcc-rcc
+/usr/local/bin/lcc-cpp
+/usr/local/bin/bprint
+/usr/local/lib/liblcc.a
+/usr/local/man/man1/bprint.1
+/usr/local/man/man1/lcc.1
 ```
 
 ## License
