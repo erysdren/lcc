@@ -473,7 +473,7 @@ static void help(void) {
 #ifdef sparc
 "-Bstatic -Bdynamic	specify static or dynamic libraries\n",
 #endif
-"-Bdir/	use the compiler named `dir/rcc'\n",
+"-Bdir/	use the compiler named `dir/lcc-rcc'\n",
 "-c	compile only\n",
 "-dn	set switch statement density to `n'\n",
 "-Dname -Dname=def	define the preprocessor symbol `name'\n",
@@ -635,9 +635,9 @@ xx(unsigned_int,4)
 			error("-B overwrites earlier option", 0);
 		path = arg + 2;
 		if (strstr(com[1], "win32") != NULL)
-			com[0] = concat(replace(path, '/', '\\'), concat("rcc", first(suffixes[4])));
+			com[0] = concat(replace(path, '/', '\\'), concat("lcc-rcc", first(suffixes[4])));
 		else
-			com[0] = concat(path, "rcc");
+			com[0] = concat(path, "lcc-rcc");
 		if (path[0] == 0)
 			error("missing directory in -B option", 0);
 		}
