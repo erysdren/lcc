@@ -19,7 +19,8 @@ available to CMake
 
 options:
 - set `-DLCC_HOST_FILE=x` on the command line where `x` is one of the following options:
-	- `generic.c` - generic platform-agnostic target, makes few assumptions about host system (default)
+	- `qvm.c` - Quake 3 bytecode target (default)
+	- `generic.c` - generic platform-agnostic target, makes few assumptions about host system
 	- `gcc-solaris.c` - "SPARCs running Solaris 2.5.1 w/GCC tools"
 	- `irix.c` - "SGI big endian MIPSes running IRIX 6.2"
 	- `linux.c` - "x86s running Linux"
