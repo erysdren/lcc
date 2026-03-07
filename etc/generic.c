@@ -1,17 +1,19 @@
-/* bytecode target */
+/* generic target */
 
 #include <string.h>
 #include <stdio.h>
 
 #ifdef _WIN32
 #define BINEXT ".exe"
+#define OBJEXT ".obj"
 #define PATH_SEP '\\'
 #else
 #define BINEXT ""
+#define OBJEXT ".o"
 #define PATH_SEP '/'
 #endif
 
-char *suffixes[] = { ".c", ".i", ".asm", ".o", ".out", 0 };
+char *suffixes[] = { ".c", ".i", ".asm", OBJEXT, BINEXT, 0 };
 char inputs[256] = "";
 char *cpp[] = { "lcc-cpp" BINEXT,
 	"-D__STDC__=1", "-D__STRICT_ANSI__", "-D__signed__=signed",
