@@ -5,19 +5,11 @@ project(lcc LANGUAGES C VERSION 4.2.0)
 # options
 #
 
-if(NOT LCC_HOST_FILE_DEFAULT)
-	if(LINUX)
-		set(LCC_HOST_FILE_DEFAULT linux.c)
-	elseif(WIN32)
-		set(LCC_HOST_FILE_DEFAULT win32.c)
-	else()
-		message(WARNING "Platform is not Linux or Windows - automatically assuming generic target")
-		set(LCC_HOST_FILE_DEFAULT generic.c)
-	endif()
-endif()
+set(LCC_HOST_FILE qvm.c CACHE STRING "Platform host source file")
+set_property(CACHE LCC_HOST_FILE PROPERTY STRINGS generic.c gcc-solaris.c irix.c linux.c osf.c solaris.c win32.c qvm.c)
 
-set(LCC_HOST_FILE ${LCC_HOST_FILE_DEFAULT} CACHE STRING "Platform host source file")
-set_property(CACHE LCC_HOST_FILE PROPERTY STRINGS generic.c gcc-solaris.c irix.c linux.c osf.c solaris.c win32.c)
+option(LCC_BUILD_Q3ASM "Build q3asm (GPL2) for Quake 3 bytecode target" ON)
+option(LCC_BUILD_Q3ASM2 "Build q3asm2 (GPL2) for Quake 3 bytecode target" OFF)
 
 #
 # packages
@@ -109,6 +101,7 @@ add_executable(lcc-rcc
 	${PROJECT_SOURCE_DIR}/src/gen.c
 	${PROJECT_SOURCE_DIR}/src/bytecode.c
 	${PROJECT_SOURCE_DIR}/src/stab.c
+	${PROJECT_SOURCE_DIR}/src/qvm.c
 
 	${PROJECT_BINARY_DIR}/alpha.c
 	${PROJECT_BINARY_DIR}/dagcheck.c
@@ -123,6 +116,28 @@ if(CMAKE_C_COMPILER_ID STREQUAL "GNU")
 endif()
 
 #
+# q3asm (GPL2, by id Software and the ioq3 team)
+#
+
+if(LCC_BUILD_Q3ASM)
+	add_executable(q3asm
+		${PROJECT_SOURCE_DIR}/q3asm/q3asm.c
+		${PROJECT_SOURCE_DIR}/q3asm/cmdlib.c
+	)
+endif()
+
+#
+# q3asm2 (GPL2, by David Walton)
+#
+
+if(LCC_BUILD_Q3ASM2)
+	add_executable(q3asm2
+		${PROJECT_SOURCE_DIR}/q3asm2/q3asm2.c
+		${PROJECT_SOURCE_DIR}/q3asm2/hash.c
+	)
+endif()
+
+#
 # compiler frontend
 #
 
@@ -130,6 +145,14 @@ add_executable(lcc
 	${PROJECT_SOURCE_DIR}/etc/${LCC_HOST_FILE}
 	${PROJECT_SOURCE_DIR}/etc/lcc.c
 )
+
+if(LCC_BUILD_Q3ASM)
+	target_compile_definitions(lcc PRIVATE HAS_Q3ASM)
+endif()
+
+if(LCC_BUILD_Q3ASM2)
+	target_compile_definitions(lcc PRIVATE HAS_Q3ASM2)
+endif()
 
 #
 # bprint
@@ -166,6 +189,24 @@ install(
 	DESTINATION
 		bin
 )
+
+if(LCC_BUILD_Q3ASM)
+	install(
+		TARGETS
+			q3asm
+		DESTINATION
+			bin
+	)
+endif()
+
+if(LCC_BUILD_Q3ASM2)
+	install(
+		TARGETS
+			q3asm2
+		DESTINATION
+			bin
+	)
+endif()
 
 install(
 	TARGETS
