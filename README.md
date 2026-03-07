@@ -11,6 +11,8 @@ todo:
 - language extensions as i see fit
 - bring in `q3asm` assembler for linking the bytecode target to `.qvm` files
 - reimplement test suite
+- add [WebAssembly](https://webassembly.org/) target
+- merge host file handling into something that can be switched at runtime
 
 ## Building
 
