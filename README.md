@@ -5,14 +5,13 @@ this is where i'm hacking on [lcc](https://github.com/drh/lcc)
 added:
 - CMake-based build system
 - general code cleanup and fixes for C23
-- make bytecode target the main focus
+- made Quake 3 bytecode target (QVM) the main focus
 
 todo:
-- language extensions as i see fit
-- bring in `q3asm` assembler for linking the bytecode target to `.qvm` files
+- add C language extensions as i see fit
 - reimplement test suite
 - add [WebAssembly](https://webassembly.org/) target
-- merge host file handling into something that can be switched at runtime
+- merge host file handling into something that can be modified at runtime
 
 ## Building
 
