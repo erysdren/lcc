@@ -13,14 +13,31 @@ todo:
 
 ## Building
 
+NOTE: building requires a copy of [Bison](https://www.gnu.org/software/bison/)
+available to CMake
+
+options:
+- set `-DLCC_HOST_FILE=x` on the command line where `x` is one of the following options:
+	- `generic.c` - generic target, makes few assumptions about host system (default)
+	- `gcc-solaris.c` - "SPARCs running Solaris 2.5.1 w/GCC tools"
+	- `irix.c` - "SGI big endian MIPSes running IRIX 6.2"
+	- `linux.c` - "x86s running Linux"
+	- `osf.c` - "DEC ALPHAs running OSF/1 V3.2A (Rev. 17)"
+	- `solaris.c` - "SPARCs running Solaris 2.5.1"
+	- `win32.c` - "x86s running MS Windows NT 4.0"
+
 ```bash
 # to configure
 cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
 
 # to build
 cmake --build build
+```
 
-# to install (optional)
+## Installation
+
+```bash
+# run this command after building
 cmake --build build --target install
 ```
 
