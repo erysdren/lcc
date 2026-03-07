@@ -10,6 +10,7 @@ added:
 todo:
 - language extensions as i see fit
 - bring in `q3asm` assembler for linking the bytecode target to `.qvm` files
+- reimplement test suite
 
 ## Building
 
