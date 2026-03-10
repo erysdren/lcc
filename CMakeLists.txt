@@ -54,6 +54,7 @@ target_include_directories(lcc-lburg PRIVATE ${PROJECT_SOURCE_DIR}/lburg)
 function(lcc_lburg_target input output)
 	add_custom_command(
 		OUTPUT ${output}
+		DEPENDS ${input}
 		COMMAND $<TARGET_FILE:lcc-lburg> ${input} ${output}
 		COMMAND_EXPAND_LISTS
 		VERBATIM
